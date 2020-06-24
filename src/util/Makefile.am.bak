@@ -1,0 +1,16 @@
+lib_LTLIBRARIES = libutil.la 
+include_HEADERS = array.h vector.h
+
+noinst_LTLIBRARIES = libsutil.la libdutil.la 
+
+BBLAS_SOURCES = array.h vector.h
+
+libsutil_la_SOURCES = $(BBLAS_SOURCES)
+libsutil_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -fvisibility=hidden -fvisibility-inlines-hidden -DSINGLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp
+
+libdsbblas_la_SOURCES = $(BBLAS_SOURCES)
+libdsbblas_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -fvisibility=hidden -fvisibility-inlines-hidden -DDOUBLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp -I$(top_srcdir)/src/util
+
+libsbblas_la_SOURCES 	= #$(BBLAS_SOURCES)
+libsbblas_la_LIBADD 	= libssbblas.la libdsbblas.la $(top_builddir)/src/fp/libfp.la $(top_builddir)/src/matutil/libmatutil.la
+libsbblas_la_CFLAGS 	= $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -fvisibility=hidden -fvisibility-inlines-hidden -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp -I$(top_srcdir)/src/util

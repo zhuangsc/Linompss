@@ -1,0 +1,19 @@
+#!/bin/bash
+#BSUB -J itref_test
+#BSUB -W 01:00
+#BSUB -q debug
+#BSUB -oo itref_test_%J.out
+#BSUB -eo itref_test_%J.err
+#BSUB -n 1
+
+
+module load ompss mkl LAPACK EXTRAE
+export LD_LIBRARY_PATH=/apps/OCTAVE/3.8.0/lib:$LD_LIBRARY_PATH
+export PATH=/apps/OCTAVE/3.8.0/bin:/home/bsc19/bsc19732/bin:$PATH
+
+
+for i in $( seq 1 16 ); do
+	export NX_PES=${i}
+	./itref_test.sh 100
+done
+

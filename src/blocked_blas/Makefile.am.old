@@ -1,0 +1,22 @@
+inst_LTLIBRARIES = libsbblas.la libdbblas.la libbutil.la 
+
+include_HEADERS = blocked_blas.h tasks.h bblas_dot.h bblas_axpy.h
+
+BBLAS_SOURCES = tasks.c task_gemv.c task_dot.c task_axpy.c task_dot_async.c tasks_async.c bblas_gemv.h bblas_axpy.h bblas_trsm.h tasks_trsm.c tasks_trsm.h blocked_blas_async.c bblas_gemm.h tasks_gemm.h tasks_gemm.c tasks_syrk.h tasks_syrk.c bblas_syrk.h blocked_blas.c blocked_blas.h 
+BUTIL_SOURCES = task_convert.c blocked_util.h
+
+libsbblas_la_SOURCES = $(BBLAS_SOURCES)
+libsbblas_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -DSINGLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp
+
+libdbblas_la_SOURCES = $(BBLAS_SOURCES)
+libdbblas_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -DDOUBLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp
+
+libbutil_la_SOURCES = $(BUTIL_SOURCES)
+libbutil_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -I$(top_srcdir)/src -I$(top_srcdir)/src/fp
+
+
+libsbblasdll_la_SOURCES = $(BBLAS_SOURCES)
+libsbblasdll_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -fvisibility=hidden fvisibility-inlines-hidden -DSINGLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp
+
+libdbblasdll_la_SOURCES = $(BBLAS_SOURCES)
+libdbblasdll_la_CFLAGS  = $(OMPSS_CFLAGS) $(LAPACK_CFLAGS) -fvisibility=hidden fvisibility-inlines-hidden -DDOUBLE_PRECISION -I$(top_srcdir)/src -I$(top_srcdir)/src/blas -I$(top_srcdir)/src/matutil -I$(top_srcdir)/src/fp

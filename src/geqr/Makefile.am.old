@@ -1,0 +1,45 @@
+qrca_sources = geqr.c qr_config.c qr_config.h qrca_kernels_dgeqt2.c qrca_kernels_dlarfb.c c qrca_setup.c qrca_utils.c qr_check.c NoFLA_Apply_td_BlockH_var1.c  NoFLA_Apply_td_QT_var31a.c  NoFLA_Compute_td_QR_var31a.c NoFLA_Compute_td_QR_var31b.c NoFLA_QR_td_unb_var1.c NoFLA_Apply_td_BlockH_var1_hier.c split_dlarfb_hier_task.c NoFLA_QR_td_unb_var1_hier.c NoFLA_QR_td_unb_var1_updateS.c NoFLA_Compute_td_QR_var31a_hier.c NoFLA_Apply_td_QT_var31a_hier.c qrca_kernels_dlarfb_hier.c
+qrca_headers = qrca_kernels.h qrca_variations.h NoFLA_Apply_td_BlockH_var1.h NoFLA_QR_td_unb_var1.h NoFLA_Apply_td_BlockH_var1_hier.h NoFLA_Compute_td_QR_var31b.h
+
+bin_PROGRAMS = qrca qrcat qrcabin qrcabint qrcareordr qrcareordrt qrcanodeps qrcanodepst
+#bin_PROGRAMS = qrca qrcat qrcabin qrcabint qrcareordr qrcareordrt qrcanodeps qrcanodepst qrnative
+
+#bin_PROGRAMS += qrcat
+qrca_SOURCES = qrcarect_main.c $(qrca_sources) $(qrca_headers)
+qrca_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+
+qrcat_SOURCES = qrcarect_main.c $(qrca_sources) $(qrca_headers)
+qrcat_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcat_CFLAGS = $(OMPSS_TRACE_FLAGS) 
+
+
+qrcabin_SOURCES = qrcabin_main.c $(qrca_sources) $(qrca_headers)
+qrcabin_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcabin_CFLAGS = -DUSE_BINARY_TREE
+
+qrcabint_SOURCES = qrcabin_main.c $(qrca_sources) $(qrca_headers)
+qrcabint_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcabint_CFLAGS = -DUSE_BINARY_TREE $(OMPSS_TRACE_FLAGS) 
+
+
+qrcareordr_SOURCES = qrcareordr_main.c $(qrca_sources) $(qrca_headers)
+qrcareordr_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcareordr_CFLAGS = -DUSE_REORDR 
+
+qrcareordrt_SOURCES = qrcareordr_main.c $(qrca_sources) $(qrca_headers)
+qrcareordrt_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcareordrt_CFLAGS = $(OMPSS_TRACE_FLAGS) -DUSE_REORDR 
+
+
+qrcanodeps_SOURCES = qrcarect_nodeps_main.c $(qrca_sources) $(qrca_headers)
+qrcanodeps_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcanodeps_CFLAGS = -DUSE_NODEPS 
+
+qrcanodepst_SOURCES = qrcarect_nodeps_main.c $(qrca_sources) $(qrca_headers)
+qrcanodepst_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrcanodepst_CFLAGS = $(OMPSS_TRACE_FLAGS) -DUSE_NODEPS 
+
+qrnative_SOURCES = $(qrca_sources) $(qrca_headers)
+qrnative_LDFLAGS = $(LAPACK_LIBS) $(BLAS_LIBS) $(LIBS)
+qrnative_CFLAGS = -DUSE_NATIVE 
+qrnative_CC = gcc

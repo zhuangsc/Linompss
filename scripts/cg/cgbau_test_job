@@ -1,0 +1,19 @@
+#!/bin/bash
+#BSUB -J cgbau_test
+#BSUB -W 01:00
+#BSUB -q debug
+#BSUB -oo cgbau_test_%J.out
+#BSUB -eo cgbau_test_%J.err
+#BSUB -n 1
+
+
+module load ompss mkl LAPACK EXTRAE
+export LD_LIBRARY_PATH=/apps/OCTAVE/3.8.0/lib:$LD_LIBRARY_PATH
+export PATH=/apps/OCTAVE/3.8.0/bin:/home/bsc19/bsc19732/bin:$PATH
+
+
+for i in $( seq 1 12 ); do
+	export NX_PES=${i}
+	./cgbau_test.sh 10
+done
+

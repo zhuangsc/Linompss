@@ -1,0 +1,34 @@
+#!/bin/bash
+#BSUB -J refine
+#BSUB -W 04:00
+#BSUB -q sequential
+#BSUB -oo refine_%J.out
+#BSUB -eo refine_%J.err
+#BSUB -n 1
+
+module load ompss mkl LAPACK EXTRAE
+export LD_LIBRARY_PATH=/apps/OCTAVE/3.8.0/lib:$LD_LIBRARY_PATH
+export PATH=/apps/OCTAVE/3.8.0/bin:/home/bsc19/bsc19732/bin:$PATH
+
+logfname="cg.log"
+
+for n in 512 1024 2048 ; do
+
+	for pe in $( seq 1 16 ); do 
+
+		export NX_PES=${pe}
+
+		for it in $( seq 1 10 ); do
+
+			#use: ./itref n bm bn s refit cgit [maxcgit] [prec] [rep] [dupl] [errnrm]
+			./itref ${n} 32 1 1 256 2 2 1e-12 1 2 0 
+
+			if [ ! -e ${logfname} ]; then
+				echo "no log file"
+				exit 1
+			fi
+
+			mv ${logfname} log_${n}_${pe}_${it}
+		done
+	done
+done
