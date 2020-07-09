@@ -2,7 +2,7 @@
 
 Name: LINOmpSs
 
-Contact Person: Pieter Bellens, pieter.bellens@bsc.es ; Sicong Zhuang, sicong.zhuang@bsc.es
+Authors: Pieter Bellens; Sicong Zhuang, sicong.zhuang@gmail.com
 
 License Agreement: GPL
 
